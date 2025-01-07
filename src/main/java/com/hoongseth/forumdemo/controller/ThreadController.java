@@ -5,6 +5,7 @@ import com.hoongseth.forumdemo.model.ThreadPreview;
 import com.hoongseth.forumdemo.service.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,8 @@ public class ThreadController {
     }
 
     @GetMapping("/threads")
-    public List<ThreadPreview> getThreads(@RequestParam int page, @RequestParam int size) {
+    @Secured("ROLE_USER")
+    public List<ThreadPreview> getThreads(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return threadService.getForumThreads(page, size).getContent()
                 .stream()
                 .map(ThreadPreview::fromForumThread)
@@ -42,6 +44,7 @@ public class ThreadController {
     }
 
     @PatchMapping("/threads/{id}/like")
+    @Secured("ROLE_USER")
     public ResponseEntity<ForumThread> likeThread(@PathVariable String id) {
         ForumThread thread = threadService.getForumThread(id);
 
@@ -53,6 +56,7 @@ public class ThreadController {
     }
 
     @PostMapping("/threads")
+    @Secured("ROLE_USER")
     public ResponseEntity<String> createThread(@RequestBody ForumThread forumThread) {
         if (forumThread.getAuthor() == null) {
             ResponseEntity.badRequest().body("Author is required");
@@ -75,6 +79,7 @@ public class ThreadController {
     }
 
     @PostMapping("/threads/{id}/reply")
+    @Secured("ROLE_USER")
     public ResponseEntity<String> replyThread(@PathVariable String id, @RequestBody ForumThread reply) {
         ForumThread thread = threadService.getForumThread(id);
 
@@ -88,6 +93,7 @@ public class ThreadController {
     }
 
     @DeleteMapping("/threads/{id}")
+    @Secured("ROLE_USER")
     public ResponseEntity<String> deleteThread(@PathVariable String id) {
         ForumThread thread = threadService.getForumThread(id);
         if (thread == null) {
