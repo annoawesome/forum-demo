@@ -18,8 +18,11 @@ public class ThreadController {
     }
 
     @GetMapping("/threads")
-    public List<ThreadPreview> getThreads() {
-        return List.of();
+    public List<ThreadPreview> getThreads(@RequestParam int page, @RequestParam int size) {
+        return threadService.getForumThreads(page, size).getContent()
+                .stream()
+                .map(ThreadPreview::fromForumThread)
+                .toList();
     }
 
     @GetMapping("/threads/preview/{id}")
