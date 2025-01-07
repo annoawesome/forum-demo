@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Document("threads")
@@ -17,6 +18,10 @@ public class ForumThread {
     private String content;
     private String author;
 
+    private int likes;
+    private int comments;
+    private int views;
+    private List<ForumThread> children;
     private String parentId;
 
     @CreatedDate

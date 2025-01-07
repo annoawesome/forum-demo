@@ -41,4 +41,28 @@ public class ThreadService {
     public ForumThread postThread(ForumThread thread) {
         return threadRepository.save(thread);
     }
+
+    public ForumThread replyToThread(ForumThread thread, ForumThread reply) {
+        thread.getChildren().add(reply);
+        thread.setComments(thread.getComments() + 1);
+
+        threadRepository.save(thread);
+
+        return reply;
+    }
+
+    public boolean deleteThread(String id) {
+        threadRepository.deleteById(id);
+        return true;
+    }
+
+    public ForumThread incrementViews(ForumThread thread) {
+        thread.setViews(thread.getViews() + 1);
+        return threadRepository.save(thread);
+    }
+
+    public ForumThread incrementLike(ForumThread thread) {
+        thread.setLikes(thread.getLikes() + 1);
+        return threadRepository.save(thread);
+    }
 }

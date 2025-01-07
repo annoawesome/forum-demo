@@ -4,6 +4,7 @@ import com.hoongseth.forumdemo.model.ForumThread;
 import com.hoongseth.forumdemo.model.ThreadPreview;
 import com.hoongseth.forumdemo.service.ThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,8 +36,65 @@ public class ThreadController {
         return threadService.getForumThread(id);
     }
 
+    @PatchMapping("/threads/{id}/view")
+    public ResponseEntity<ForumThread> viewThread(@PathVariable String id) {
+        return ResponseEntity.ok(threadService.incrementViews(threadService.getForumThread(id)));
+    }
+
+    @PatchMapping("/threads/{id}/like")
+    public ResponseEntity<ForumThread> likeThread(@PathVariable String id) {
+        ForumThread thread = threadService.getForumThread(id);
+
+        if (thread == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(threadService.incrementLike(thread));
+    }
+
     @PostMapping("/threads")
-    public ThreadPreview createThread(@RequestBody ForumThread forumThread) {
-        return ThreadPreview.fromForumThread(threadService.postThread(forumThread));
+    public ResponseEntity<String> createThread(@RequestBody ForumThread forumThread) {
+        if (forumThread.getAuthor() == null) {
+            ResponseEntity.badRequest().body("Author is required");
+        }
+
+        if (forumThread.getTitle() == null || forumThread.getTitle().isEmpty()) {
+            ResponseEntity.badRequest().body("Title cannot be empty");
+        }
+
+        if (forumThread.getContent() == null || forumThread.getContent().isEmpty()) {
+            ResponseEntity.badRequest().body("Content cannot be empty");
+        }
+
+        forumThread.setLikes(0);
+        forumThread.setComments(0);
+        forumThread.setViews(0);
+        forumThread.setChildren(List.of());
+
+        return ResponseEntity.ok(threadService.postThread(forumThread).getId());
+    }
+
+    @PostMapping("/threads/{id}/reply")
+    public ResponseEntity<String> replyThread(@PathVariable String id, @RequestBody ForumThread reply) {
+        ForumThread thread = threadService.getForumThread(id);
+
+        if (thread == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        threadService.replyToThread(thread, reply);
+
+        return ResponseEntity.ok(thread.getId());
+    }
+
+    @DeleteMapping("/threads/{id}")
+    public ResponseEntity<String> deleteThread(@PathVariable String id) {
+        ForumThread thread = threadService.getForumThread(id);
+        if (thread == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        threadService.deleteThread(id);
+        return ResponseEntity.ok().build();
     }
 }

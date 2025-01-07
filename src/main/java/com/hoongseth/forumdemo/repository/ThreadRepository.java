@@ -14,4 +14,5 @@ public interface ThreadRepository extends MongoRepository<ForumThread, String> {
     Optional<ForumThread> findById(String id);
     ForumThread save(ForumThread forumThread);
     Page<ForumThread> findAll(Pageable pageable);
+    void deleteById(String id);
 }
