@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+  <link rel="stylesheet" th:href="@{/css/signup.css}">
+</head>
+<body>
+  <p id="submit-status">Invalid username or password.</p>
+  <form>
+    <label for="signup-username">Username: </label> <br>
+    <input type="text" name="username" id="signup-username"> <br>
+    <label for="signup-password">Password: </label> <br>
+    <input type="password" name="password" id="signup-password"> <br>
+    <label for="signup-confirm-password">Confirm Password: </label> <br>
+    <input type="password" name="confirm-password" id="signup-confirm-password"> <br>
+    <button type="button" onclick="signUp()">Sign Up</button>
+  </form>
+
+  <script th:src="@{/js/signup.js}"></script>
+</body>
+</html>
