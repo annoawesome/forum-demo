@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,6 @@ public class ThreadController {
     }
 
     @GetMapping("/threads")
-    @Secured("ROLE_USER")
     public List<ThreadPreview> getThreads(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return threadService.getForumThreads(page, size).getContent()
                 .stream()
@@ -57,11 +57,7 @@ public class ThreadController {
 
     @PostMapping("/threads")
     @Secured("ROLE_USER")
-    public ResponseEntity<String> createThread(@RequestBody ForumThread forumThread) {
-        if (forumThread.getAuthor() == null) {
-            ResponseEntity.badRequest().body("Author is required");
-        }
-
+    public ResponseEntity<String> createThread(@RequestBody ForumThread forumThread, Principal principal) {
         if (forumThread.getTitle() == null || forumThread.getTitle().isEmpty()) {
             ResponseEntity.badRequest().body("Title cannot be empty");
         }
@@ -70,6 +66,7 @@ public class ThreadController {
             ResponseEntity.badRequest().body("Content cannot be empty");
         }
 
+        forumThread.setAuthor(principal.getName());
         forumThread.setLikes(0);
         forumThread.setComments(0);
         forumThread.setViews(0);

@@ -21,7 +21,7 @@ public class WebSecurityConfig {
 
         manager.createUser(User.builder()
                 .username("user")
-                .password("{bcrypt}$2a$10$meRUARwQnKQIsLJq3QKnH.UTJiqAHBh6HjX5Ib6ocvbBjUOyJ/btm")
+                .password("{noop}password")
                 .roles("USER")
                 .build());
 
@@ -36,7 +36,6 @@ public class WebSecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .loginProcessingUrl("/login")
                         .permitAll())
                 .httpBasic(Customizer.withDefaults());
 

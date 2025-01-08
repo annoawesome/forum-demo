@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Forum Demo</title>
+
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+    <h1>Homepage</h1>
+
+    <div>
+        <button id="new-thread-button" onclick="openNewThreadForm()">New Thread</button>
+    </div>
+
+    <div id="new-thread-form">
+        <form>
+            <label for="title-input">Title</label> <br>
+            <input type="text" id="title-input" name="title"> <br>
+            <label for="content-input">Post</label> <br>
+            <textarea id="content-input" name="content"></textarea> <br>
+
+            <button type="button" onclick="createForumThread()">Submit</button>
+        </form>
+    </div>
+
+    <table id="thread-table">
+        <tr>
+            <td>Thread</td>
+            <td>Author</td>
+        </tr>
+    </table>
+
+    <script th:src="@{/script.js}"></script>
+</body>
+</html>
