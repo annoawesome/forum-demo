@@ -3,6 +3,33 @@ const signupPassword = document.getElementById('signup-password');
 const signupConfirmPassword = document.getElementById('signup-confirm-password');
 const signupButton = document.getElementById('signup-button');
 
+const weaknessReasons = {
+    badLength: "Password must be at least 8 characters",
+    highLength: "Password cannot be more than 20 characters",
+    noLowercase: "Password needs at least one lowercase letter",
+    noUppercase: "Password needs at least one uppercase letter",
+    noDigits: "Password needs at least one number",
+    noSpecialCharacters: "Password needs at least one special character",
+}
+
+function evaluatePassword(password) {
+    let hasLength = password.length >= 8 && password.length <= 20;
+    let hasUpper = /[A-Z]/.test(password);
+    let hasLower = /[a-z]/.test(password);
+    let hasDigits = /\d/.test(password);
+    let hasSpecialChars = /[^A-Za-z0-9]/.test(password);
+
+    let reasons = [];
+    // return reasons if password is not strong enough
+    if (!hasLength) { reasons.push(weaknessReasons.badLength); }
+    if (!hasLower) { reasons.push(weaknessReasons.noLowercase); }
+    if (!hasUpper) { reasons.push(weaknessReasons.noUppercase); }
+    if (!hasDigits) { reasons.push(weaknessReasons.noDigits); }
+    if (!hasSpecialChars) { reasons.push(weaknessReasons.noSpecialCharacters); }
+
+    return reasons;
+}
+
 function signUp() {
     let username = signupUsername.value;
     let password = signupPassword.value;
@@ -10,6 +37,12 @@ function signUp() {
 
     if (confirmPassword !== password) {
         return alert('Passwords do not match!');
+    }
+
+    let passwordWeaknesses = evaluatePassword(password);
+
+    if (passwordWeaknesses.length > 0) {
+        return alert(passwordWeaknesses[0]);
     }
 
     // gray out the sign up

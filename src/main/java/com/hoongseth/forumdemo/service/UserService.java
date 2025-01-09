@@ -32,6 +32,10 @@ public class UserService {
             return Optional.empty();
         }
 
+        if (forumUser.getPassword() == null || !validatePassword(forumUser.getPassword())) {
+            return Optional.empty();
+        }
+
         forumUser.addRole("USER");
         // Securely hash password
         forumUser.setPassword(
@@ -40,5 +44,10 @@ public class UserService {
 
         forumUser = userRepository.save(forumUser);
         return Optional.of(forumUser.withoutPassword());
+    }
+
+    private boolean validatePassword(String password) {
+        // courtesy of ChatGPT
+        return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,20}$");
     }
 }
