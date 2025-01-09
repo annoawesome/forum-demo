@@ -11,13 +11,14 @@
 <body>
   <p id="submit-status">Invalid username or password.</p>
   <form>
-    <label for="signup-username">Username: </label> <br>
-    <input type="text" name="username" id="signup-username"> <br>
-    <label for="signup-password">Password: </label> <br>
-    <input type="password" name="password" id="signup-password"> <br>
-    <label for="signup-confirm-password">Confirm Password: </label> <br>
-    <input type="password" name="confirm-password" id="signup-confirm-password"> <br>
-    <button type="button" onclick="signUp()">Sign Up</button>
+    <h1>Create a new account</h1>
+    <label for="signup-username">Username:</label>
+    <input type="text" name="username" id="signup-username" placeholder="Username" required>
+    <label for="signup-password">Password: </label>
+    <input type="password" name="password" id="signup-password" placeholder="Password" required>
+    <label for="signup-confirm-password">Confirm Password: </label>
+    <input type="password" name="confirm-password" id="signup-confirm-password" placeholder="Confirm Password" required>
+    <button type="button" onclick="signUp()" id="signup-button">Sign Up</button>
   </form>
 
   <script th:src="@{/js/signup.js}"></script>

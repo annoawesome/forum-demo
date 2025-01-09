@@ -39,6 +39,11 @@ function openNewThreadForm() {
     threadForm.style.display = "flex";
 }
 
+function closeNewThreadForm() {
+    const threadForm = document.getElementById("new-thread-form");
+    threadForm.style.display = "none";
+}
+
 function createForumThread() {
     const titleInput = document.getElementById("title-input");
     const contentInput = document.getElementById("content-input");
@@ -54,10 +59,12 @@ function createForumThread() {
             'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content')
         }
     })
-        .then(response => response.json())
-        .then(_ => {
-            clearThreads();
-            loadThreads();
+        .then(response => {
+            if (response.ok) {
+                closeNewThreadForm()
+                clearThreads();
+                loadThreads();
+            }
         })
 }
 

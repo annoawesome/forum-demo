@@ -1,15 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Forum Demo</title>
 
-    <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
     <h1>Homepage</h1>
+
+    <div sec:authorize="isAuthenticated()">
+        Welcome, <span sec:authentication="name"></span>
+    </div>
+
+    <div sec:authorize="isAnonymous()">
+        Please login with your account.
+
+        <a th:href="@{/login}">Login</a>
+    </div>
 
     <div>
         <button id="new-thread-button" onclick="openNewThreadForm()">New Thread</button>
@@ -33,6 +43,6 @@
         </tr>
     </table>
 
-    <script th:src="@{/script.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

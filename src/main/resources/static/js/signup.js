@@ -1,6 +1,7 @@
 const signupUsername = document.getElementById('signup-username');
 const signupPassword = document.getElementById('signup-password');
 const signupConfirmPassword = document.getElementById('signup-confirm-password');
+const signupButton = document.getElementById('signup-button');
 
 function signUp() {
     let username = signupUsername.value;
@@ -10,6 +11,16 @@ function signUp() {
     if (confirmPassword !== password) {
         return alert('Passwords do not match!');
     }
+
+    // gray out the sign up
+    signupUsername.style.color = "#888";
+    signupUsername.disabled = true;
+    signupPassword.style.color = "#888";
+    signupPassword.disabled = true;
+    signupConfirmPassword.style.color = "#888";
+    signupConfirmPassword.disabled = true;
+    signupButton.style.color = "#888";
+    signupButton.disabled = true;
 
     fetch('/users/signup', {
         method: 'POST',
@@ -31,9 +42,7 @@ function signUp() {
             }
         })
         .then(data => {
-            if (data.success) {
-                window.location.redirect("/login");
-            }
+            window.location.href = "/login";
         })
         .catch(error => {
             if (error.status === 409) {
@@ -41,5 +50,16 @@ function signUp() {
                 submitStatusElement.innerText = "The user already exists!";
                 submitStatusElement.style.display = "block";
             }
+        })
+        .finally(() => {
+            // somehow we couldn't sign up
+            signupUsername.style.color = "";
+            signupUsername.disabled = false;
+            signupPassword.style.color = "";
+            signupPassword.disabled = false;
+            signupConfirmPassword.style.color = "";
+            signupConfirmPassword.disabled = false;
+            signupButton.style.color = "";
+            signupButton.disabled = false;
         })
 }
