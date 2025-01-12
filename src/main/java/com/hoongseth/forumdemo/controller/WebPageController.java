@@ -9,4 +9,14 @@ public class WebPageController {
     public String signup() {
         return "signup";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/thread")
+    public String thread() {
+        return "thread";
+    }
 }

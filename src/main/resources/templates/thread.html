@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <title>Thread</title>
+
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+  <link rel="stylesheet" th:href="@{/css/thread.css}">
+</head>
+<body>
+  <div>
+    <h1 id="thread-title">Thread Title</h1>
+  </div>
+
+  <div id="replies-list">
+    <div class="post">
+      <p>User <i class="user-role">OP</i></p>
+      <p>Content</p>
+    </div>
+    <div class="post">
+      <p>User <i class="user-role">OP</i></p>
+      <p>Reply</p>
+    </div>
+  </div>
+
+  <div sec:authorize="isAuthenticated()" id="reply-panel">
+    <h3>Reply as<span sec:authentication="name"></span></h3>
+    <form>
+      <textarea id="reply-content" rows="10" cols="50"></textarea> <br>
+      <button type="button" id="submit-reply" onclick="submitReply()">Reply</button>
+    </form>
+  </div>
+
+  <div sec:authorize="isAnonymous()" id="login-suggestion">
+    You need to be logged in to leave a reply.
+  </div>
+
+  <script th:src="@{/js/thread.js}"></script>
+</body>
+</html>

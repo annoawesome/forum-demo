@@ -11,7 +11,7 @@ function loadThreads() {
                 const td1 = document.createElement("td");
                 const td2 = document.createElement("td");
 
-                td1.innerText = data[i].title;
+                td1.innerHTML = `<a href='/thread?id=${data[i].id}'>${data[i].title}<a/>`;
                 td2.innerText = data[i].author;
                 threadRow.appendChild(td1);
                 threadRow.appendChild(td2);

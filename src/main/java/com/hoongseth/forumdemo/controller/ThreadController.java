@@ -77,12 +77,26 @@ public class ThreadController {
 
     @PostMapping("/threads/{id}/reply")
     @Secured("ROLE_USER")
-    public ResponseEntity<String> replyThread(@PathVariable String id, @RequestBody ForumThread reply) {
+    public ResponseEntity<String> replyThread(@PathVariable String id, @RequestBody ForumThread reply, Principal principal) {
         ForumThread thread = threadService.getForumThread(id);
 
         if (thread == null) {
             return ResponseEntity.notFound().build();
         }
+
+        if (reply.getTitle() != null) {
+            ResponseEntity.badRequest().body("Title must be empty");
+        }
+
+        if (reply.getContent() == null || reply.getContent().isEmpty()) {
+            ResponseEntity.badRequest().body("Content cannot be empty");
+        }
+
+        reply.setAuthor(principal.getName());
+        reply.setLikes(0);
+        reply.setComments(0);
+        reply.setViews(0);
+        reply.setChildren(List.of());
 
         threadService.replyToThread(thread, reply);
 
