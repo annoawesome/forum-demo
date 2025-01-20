@@ -1,9 +1,40 @@
+html, body {
+    background-color: #101018;
+    color: #eeeeee;
+    font-family: 'Helvetica', sans-serif;
+}
+
+#login-suggestion {
+    margin: 15px;
+    padding: 10px;
+    border: 1px solid #ff8080;
+    border-radius: 8px;
+    background-color: #f0606040;
+}
+
+#login-suggestion a {
+    color: #eee;
+}
+
+#logged-in {
+    margin: 15px;
+    padding: 10px;
+    width: fit-content;
+    border: 1px solid #80f080;
+    border-radius: 8px;
+    background-color: #60f06040;
+}
+
 #new-thread-button {
     width: 100%;
     height: 40px;
     margin-bottom: 10px;
     padding: 10px;
 
+    background-color: #202030;
+    color: #eeeeee;
+    border: 0 none;
+    border-radius: 8px;
 }
 
 /* New thread form */
@@ -12,9 +43,10 @@
     width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid gray;
+    border: 0 none;
+    border-radius: 8px;
 
-    background-color: lightgray;
+    background-color: #202030;
 }
 
 #new-thread-form * {
@@ -25,10 +57,28 @@
 #new-thread-form textarea {
     height: 150px;
     margin-bottom: 10px;
+    background-color: #181828;
+    border: 0 none;
+    border-radius: 8px;
+    color: #eeeeee;
+    padding: 5px;
 }
 
 #new-thread-form input {
     margin-bottom: 10px;
+    background-color: #181828;
+    border: 0 none;
+    border-radius: 8px;
+    color: #eeeeee;
+    padding: 5px;
+}
+
+#new-thread-form button {
+    background-color: #181828;
+    border: 0 none;
+    border-radius: 8px;
+    color: #eeeeee;
+    padding: 5px;
 }
 
 /* List of threads */
@@ -38,15 +88,18 @@
 }
 
 #thread-table tr {
-    background-color: #eeeeee;
+    background-color: #202030;
 }
 
 #thread-table td {
-    border: 1px solid gray;
+    border: 1px solid black;
     padding: 5px;
-    font-family: Helvetica, Arial, sans-serif;
+}
+
+#thread-table td a {
+    color: #eee;
 }
 
 #thread-table tr:nth-child(1) {
-    background-color: #cccccc;
+    background-color: #181828;
 }

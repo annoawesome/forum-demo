@@ -11,11 +11,11 @@
 <body>
     <h1>Homepage</h1>
 
-    <div sec:authorize="isAuthenticated()">
+    <div sec:authorize="isAuthenticated()" id="logged-in">
         Welcome, <span sec:authentication="name"></span>
     </div>
 
-    <div sec:authorize="isAnonymous()">
+    <div sec:authorize="isAnonymous()" id="login-suggestion">
         Please login with your account.
 
         <a th:href="@{/login}">Login</a>
